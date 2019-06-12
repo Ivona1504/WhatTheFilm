@@ -1,11 +1,14 @@
 package fer.ppij.whatthefilm;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import fer.ppij.whatthefilm.api.TMDbAPI;
 import fer.ppij.whatthefilm.model.Movie;
@@ -53,14 +56,19 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onSuccess(ResultsPage resultsPage) {
+                    public void onSuccess(final ResultsPage resultsPage) {
                         Toast.makeText(getApplicationContext(), resultsPage.getResults().size(), Toast.LENGTH_LONG).show();
                         adapter = new MovieAdapter(resultsPage.getResults(), getApplicationContext());
                         moviesListView.setAdapter(adapter);
                         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                                Movie movie = resultsPage.getResults().get(position);
+                                Toast.makeText(getApplicationContext(), movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+                                intent.putExtra("id", movie.getId());
+                                intent.putExtra("originalTitle", movie.getOriginalTitle());
+                                startActivity(intent);
                             }
                         });
                     }

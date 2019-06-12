@@ -2,11 +2,14 @@ package fer.ppij.whatthefilm;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import fer.ppij.whatthefilm.api.TMDbAPI;
 import fer.ppij.whatthefilm.model.Movie;
+import fer.ppij.whatthefilm.model.ResultsPage;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView moviesListView;
 
+    private MovieAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,18 +43,26 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         TMDbAPI api = retrofit.create(TMDbAPI.class);
-        Single<Movie> singleMovie = api.getMovie(11, API_KEY);
-        singleMovie.subscribeOn(Schedulers.io())
+        Single<ResultsPage> singlePage = api.getPopularMovies(1, API_KEY);
+        singlePage.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Movie>() {
+                .subscribe(new SingleObserver<ResultsPage>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onSuccess(Movie movie) {
-                        Toast.makeText(getApplicationContext(), movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
+                    public void onSuccess(ResultsPage resultsPage) {
+                        Toast.makeText(getApplicationContext(), resultsPage.getResults().size(), Toast.LENGTH_LONG).show();
+                        adapter = new MovieAdapter(resultsPage.getResults(), getApplicationContext());
+                        moviesListView.setAdapter(adapter);
+                        moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        });
                     }
 
                     @Override

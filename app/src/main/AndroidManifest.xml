@@ -13,11 +13,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SettingsActivity"></activity>
-        <!-- android:networkSecurityConfig="@xml/network_security_config"> -->
+        <activity android:name=".WatchlistActivity"></activity>
+        <activity
+            android:name=".DiscoverActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
+        </activity>
+        <activity
+            android:name=".SearchResultsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".DiscoverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".SettingsActivity" /> <!-- android:networkSecurityConfig="@xml/network_security_config"> -->
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MovieDetailsActivity" />
+        <activity
+            android:name=".MovieDetailsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

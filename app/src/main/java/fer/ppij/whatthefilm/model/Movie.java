@@ -3,6 +3,8 @@ package fer.ppij.whatthefilm.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Movie {
     @Expose
     @SerializedName("id")
@@ -13,6 +15,9 @@ public class Movie {
     @Expose
     @SerializedName("overview")
     private String overview;
+    @Expose
+    @SerializedName("genres")
+    private List<Genre> genres;
 
   //private float popularity;
     @Expose
@@ -93,5 +98,13 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 }

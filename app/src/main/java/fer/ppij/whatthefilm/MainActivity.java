@@ -1,24 +1,34 @@
 package fer.ppij.whatthefilm;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fer.ppij.whatthefilm.adapters.DrawerAdapter;
+import fer.ppij.whatthefilm.adapters.MovieAdapter;
 import fer.ppij.whatthefilm.api.TMDbAPI;
 import fer.ppij.whatthefilm.model.Movie;
 import fer.ppij.whatthefilm.model.ResultsPage;
+import fer.ppij.whatthefilm.util.DrawerItem;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,20 +47,155 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter adapter;
 
+    // NAVIGATION
+    private View mListHeaderView;
+//    private CircleImageView mCircleImageView;
+    private ImageView mPictureImageView;
+    private TextView mUsernameTextView;
+    private TextView mEmailTextView;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private DrawerAdapter mDrawerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        bindViews();
+//        initFirebase();
+
+        initRetrofit();
+        updateMoviesList();
+
+//        initDrawerHeader();
+        addDrawerItems();
+        setupDrawer();
+    }
+
+    private void initDrawerHeader() {
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+//        friends = new ArrayList<>();
+        mUsernameTextView.setText(fUser.getDisplayName());
+        mEmailTextView.setText(fUser.getEmail());
+//        mProfilePhotosStorageReference.child(fUser.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Glide.with(mPictureImageView.getContext())
+//                        .load(uri)
+//                        .into(mPictureImageView);
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                mProfilePhotosStorageReference.child(Constants.NO_PHOTO).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        Glide.with(mPictureImageView.getContext())
+//                                .load(uri)
+//                                .into(mPictureImageView);
+//                    }
+//                });
+//            }
+//        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        int id = item.getItemId();
+        if (id == R.id.log_out) {
+            logOut();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void bindViews() {
         moviesListView = findViewById(R.id.moviesListView);
+        mDrawerList = findViewById(R.id.navList);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+    }
 
+    private void addDrawerItems() {
+        List<DrawerItem> data = new ArrayList<>();
+        data.add(new DrawerItem("Discover"));
+        data.add(new DrawerItem("Watchlist"));
+        data.add(new DrawerItem("Friends"));
+        mDrawerAdapter = new DrawerAdapter(this, R.layout.item_drawer, data);
+        mDrawerList.setAdapter(mDrawerAdapter);
+//        mDrawerList.addHeaderView(mListHeaderView);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+            }
+        });
+    }
 
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+                startActivity(new Intent(MainActivity.this, DiscoverActivity.class));
+                break;
+            default:
+                Toast.makeText(this, "Item at: " + position, Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation!");
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                getSupportActionBar().setTitle("WhatTheFilm");
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    private void initRetrofit() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+    }
 
+    private void updateMoviesList() {
         TMDbAPI api = retrofit.create(TMDbAPI.class);
         Single<ResultsPage> singlePage = api.getPopularMovies(1, API_KEY);
         singlePage.subscribeOn(Schedulers.io())
@@ -70,7 +215,6 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Movie movie = adapter.getItem(position);
-                                Toast.makeText(getApplicationContext(), movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                                 intent.putExtra("id", movie.getId());
                                 intent.putExtra("originalTitle", movie.getOriginalTitle());
@@ -85,22 +229,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.settings_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.log_out) {
-            logOut();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void logOut() {

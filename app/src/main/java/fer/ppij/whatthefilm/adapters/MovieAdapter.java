@@ -1,4 +1,4 @@
-package fer.ppij.whatthefilm;
+package fer.ppij.whatthefilm.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import java.util.ArrayList;
 import java.util.List;
 
+import fer.ppij.whatthefilm.R;
 import fer.ppij.whatthefilm.model.Movie;
 
 // https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial

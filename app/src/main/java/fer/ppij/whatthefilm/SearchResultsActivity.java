@@ -51,8 +51,8 @@ public class SearchResultsActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             doQuerySearch(query);
         } else {
-            int genreId = intent.getIntExtra("id", 0);
-            doGenreSearch(genreId);
+            String genres = intent.getStringExtra("id");
+            doGenreSearch(genres);
         }
     }
 
@@ -77,7 +77,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
 
-    private void doGenreSearch(int genre) {
+    private void doGenreSearch(String genres) {
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle(getString(R.string.searching));
         dialog.setMessage(getString(R.string.finding_users));
@@ -85,7 +85,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         dialog.show();
 
         initRetrofit();
-        updateMoviesList(genre);
+        updateMoviesListGenres(genres);
 
         dialog.dismiss();
     }
@@ -98,9 +98,9 @@ public class SearchResultsActivity extends AppCompatActivity {
                 .build();
     }
 
-    private void updateMoviesList(int genre) {
+    private void updateMoviesListGenres(String genres) {
         TMDbAPI api = retrofit.create(TMDbAPI.class);
-        Single<ResultsPage> singlePage = api.genreDiscover(String.valueOf(genre), 1, API_KEY);
+        Single<ResultsPage> singlePage = api.genreDiscover(genres, 1, API_KEY);
         updateMoviesList(singlePage);
     }
 

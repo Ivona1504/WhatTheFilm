@@ -3,19 +3,24 @@ package fer.ppij.whatthefilm;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import fer.ppij.whatthefilm.adapters.GenreAdapter;
 import fer.ppij.whatthefilm.model.Genre;
@@ -26,6 +31,7 @@ public class DiscoverActivity extends AppCompatActivity {
 //    private ListView mYearsListView;
 
     private GenreAdapter mGenreAdapter;
+    private Button btnDiscover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,23 @@ public class DiscoverActivity extends AppCompatActivity {
     private void bindViews() {
         mGenresListView = findViewById(R.id.genresListView);
 //        mYearsListView = findViewById(R.id.yearsListView);
+        btnDiscover = findViewById(R.id.btnDiscover);
+
+        btnDiscover.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                List<Genre> genres = mGenreAdapter.getCheckedGenres();
+                StringJoiner sb = new StringJoiner(",");
+                for (Genre g: genres) {
+                    sb.add(String.valueOf(g.getId()));
+                }
+                Log.i("!!!!!!!!!!!!!!!!!", sb.toString());
+                Intent intent = new Intent(DiscoverActivity.this, SearchResultsActivity.class);
+                intent.putExtra("id", sb.toString());
+                startActivity(intent);
+            }
+        });
     }
 
     private void initAdapter() {
@@ -87,15 +110,12 @@ public class DiscoverActivity extends AppCompatActivity {
 
         mGenreAdapter = new GenreAdapter(genres, this);
         mGenresListView.setAdapter(mGenreAdapter);
-        mGenresListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Genre genre = mGenreAdapter.getItem(position);
-                Intent intent = new Intent(DiscoverActivity.this, SearchResultsActivity.class);
-                intent.putExtra("id", genre.getId());
-                startActivity(intent);
-            }
-        });
+//        mGenresListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //
+//            }
+//        });
     }
 
 }

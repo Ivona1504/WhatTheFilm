@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +31,13 @@ import fer.ppij.whatthefilm.model.Movie;
 public class GenreAdapter extends ArrayAdapter<Genre> {
     private List<Genre> dataSet;
     private Context mContext;
+    private List<Genre> checkedGenres;
 
     public GenreAdapter(List<Genre> data, Context context) {
-        super(context, R.layout.row_item, data);
+        super(context, R.layout.row_item_genre, data);
         this.dataSet = data;
         this.mContext = context;
+        checkedGenres = new ArrayList<>();
     }
 
     @Override
@@ -41,15 +45,26 @@ public class GenreAdapter extends ArrayAdapter<Genre> {
         LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Genre genre = dataSet.get(position);
+        final Genre genre = dataSet.get(position);
 
-        View rowView = inflater.inflate(R.layout.row_item, parent, false);
-        TextView textView = (TextView) rowView.findViewById(R.id.firstLine);
-//        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        View rowView = inflater.inflate(R.layout.row_item_genre, parent, false);
+        TextView textView = rowView.findViewById(R.id.firstLine);
+        CheckBox checkBox = rowView.findViewById(R.id.checkbox);
         textView.setText(genre.getName());
-
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    checkedGenres.add(genre);
+                } else {
+                    checkedGenres.remove(genre);
+                }
+            }
+        });
         return rowView;
     }
 
-
+    public List<Genre> getCheckedGenres() {
+        return checkedGenres;
+    }
 }

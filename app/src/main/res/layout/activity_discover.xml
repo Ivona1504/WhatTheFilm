@@ -11,6 +11,13 @@
         android:layout_height="match_parent"
         android:divider="@color/colorPrimaryDark" />
 
+    <Button
+        android:id="@+id/btnDiscover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Discover" />
     <!--<ListView-->
         <!--android:id="@+id/yearsListView"-->
         <!--android:layout_width="match_parent"-->

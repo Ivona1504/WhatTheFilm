@@ -1,6 +1,8 @@
 package fer.ppij.whatthefilm.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class User {
@@ -11,6 +13,7 @@ public class User {
     private String lastname;
     private int age;
     private Map<String, String> friends;
+    private List<Integer> watchlist;
 
     public User() {}
 
@@ -21,6 +24,7 @@ public class User {
         firstname = "Name";
         lastname = "Lastname";
         friends = new HashMap<>();
+        watchlist = new ArrayList<>();
     }
 
     public String getUid() {
@@ -75,7 +79,15 @@ public class User {
         return friends;
     }
 
-    public void setFriends(HashMap<String, String> friends) {
+    public void setFriends(Map<String, String> friends) {
         this.friends = friends;
+    }
+
+    public List<Integer> getWatchlist() {
+        return watchlist;
+    }
+
+    public void setWatchlist(List<Integer> watchlist) {
+        this.watchlist = watchlist;
     }
 }

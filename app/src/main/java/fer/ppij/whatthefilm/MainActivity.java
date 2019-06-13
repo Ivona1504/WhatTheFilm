@@ -161,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 startActivity(new Intent(MainActivity.this, DiscoverActivity.class));
                 break;
+            case 1:
+                startActivity(new Intent(MainActivity.this, WatchlistActivity.class));
+                break;
             default:
                 Toast.makeText(this, "Item at: " + position, Toast.LENGTH_LONG).show();
                 break;

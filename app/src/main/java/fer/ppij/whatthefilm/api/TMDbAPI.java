@@ -12,6 +12,6 @@ public interface TMDbAPI {
     @GET("movie/{movie_id}")
     Single<Movie> getMovie(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
 
-    @GET("movie/popular")
+    @GET("movie/popular?language=en-US")
     Single<ResultsPage> getPopularMovies(@Query("page") int page, @Query("api_key") String apiKey);
 }

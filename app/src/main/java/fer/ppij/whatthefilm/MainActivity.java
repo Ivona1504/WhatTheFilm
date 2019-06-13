@@ -3,10 +3,16 @@ package fer.ppij.whatthefilm;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -52,22 +58,23 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new SingleObserver<ResultsPage>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.d("MAIN", "onSubscribe");
                     }
 
                     @Override
-                    public void onSuccess(final ResultsPage resultsPage) {
-                        Toast.makeText(getApplicationContext(), resultsPage.getResults().size(), Toast.LENGTH_LONG).show();
+                    public void onSuccess(ResultsPage resultsPage) {
+                        Log.d("MAIN", "onSuccess");
                         adapter = new MovieAdapter(resultsPage.getResults(), getApplicationContext());
                         moviesListView.setAdapter(adapter);
                         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Movie movie = resultsPage.getResults().get(position);
+                                Movie movie = adapter.getItem(position);
                                 Toast.makeText(getApplicationContext(), movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
                                 intent.putExtra("id", movie.getId());
                                 intent.putExtra("originalTitle", movie.getOriginalTitle());
+                                intent.putExtra("poster", movie.getPosterPath());
                                 startActivity(intent);
                             }
                         });
@@ -75,10 +82,31 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.log_out) {
+            logOut();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

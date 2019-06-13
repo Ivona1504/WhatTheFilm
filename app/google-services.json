@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "684227453928",
+    "firebase_url": "https://whatthefilmapp-3058e.firebaseio.com",
+    "project_id": "whatthefilmapp-3058e",
+    "storage_bucket": "whatthefilmapp-3058e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684227453928:android:d1d80a7785f7fc28",
+        "android_client_info": {
+          "package_name": "fer.ppij.whatthefilm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684227453928-4aarha0tq0j9iv5k0iapr9bh19v6os21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fer.ppij.whatthefilm",
+            "certificate_hash": "d64d57d4e8ab556aeaf1a7abe10af7f31b08592e"
+          }
+        },
+        {
+          "client_id": "684227453928-jm6ngo08f7km2ugv39prpg833tegdf97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fer.ppij.whatthefilm",
+            "certificate_hash": "37beb239607123941b960fba1a69a66658b87ded"
+          }
+        },
+        {
+          "client_id": "684227453928-c7o1np6saaesq19iaqiippd3m0karh66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrDOAaZ3KHuob7FbMMaqD1U4T3MfrMgFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684227453928-c7o1np6saaesq19iaqiippd3m0karh66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -129,17 +129,11 @@ public class SearchResultsActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Movie movie = adapter.getItem(position);
-                                Toast.makeText(getApplicationContext(), movie.getOriginalTitle(), Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(SearchResultsActivity.this, MovieDetailsActivity.class);
                                 intent.putExtra("id", movie.getId());
                                 intent.putExtra("originalTitle", movie.getOriginalTitle());
                                 intent.putExtra("poster", movie.getPosterPath());
-                                intent.putExtra("overview", movie.getOverview());
-                                intent.putExtra("releaseDate", movie.getReleaseDate());
-                                intent.putExtra("runtime", movie.getRuntime());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    intent.putExtra("genres", movie.getGenresList());
-                                }
+
                                 startActivity(intent);
                             }
                         });

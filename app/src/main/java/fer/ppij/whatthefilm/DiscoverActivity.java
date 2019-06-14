@@ -28,7 +28,6 @@ import fer.ppij.whatthefilm.model.Genre;
 public class DiscoverActivity extends AppCompatActivity {
 
     private ListView mGenresListView;
-//    private ListView mYearsListView;
 
     private GenreAdapter mGenreAdapter;
     private Button btnDiscover;
@@ -57,7 +56,6 @@ public class DiscoverActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search:
-                Toast.makeText(this, "Search requested", Toast.LENGTH_LONG).show();
                 onSearchRequested();
                 return true;
             default:
@@ -67,7 +65,6 @@ public class DiscoverActivity extends AppCompatActivity {
 
     private void bindViews() {
         mGenresListView = findViewById(R.id.genresListView);
-//        mYearsListView = findViewById(R.id.yearsListView);
         btnDiscover = findViewById(R.id.btnDiscover);
 
         btnDiscover.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +85,7 @@ public class DiscoverActivity extends AppCompatActivity {
 
     private void initAdapter() {
         List<Genre> genres = new ArrayList<>();
+
         genres.add(new Genre(12, "Adventure"));
         genres.add(new Genre(14, "Fantasy"));
         genres.add(new Genre(16, "Animation"));
@@ -106,15 +104,8 @@ public class DiscoverActivity extends AppCompatActivity {
         genres.add(new Genre(10751, "Family"));
         genres.add(new Genre(10752, "War"));
 
-
         mGenreAdapter = new GenreAdapter(genres, this);
         mGenresListView.setAdapter(mGenreAdapter);
-//        mGenresListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //
-//            }
-//        });
     }
 
 }

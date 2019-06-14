@@ -125,10 +125,6 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         Log.i("FIREBASE", "ovjde");
 
-        Toast.makeText(CreateAccountActivity.this, "Username: " + email, Toast.LENGTH_SHORT).show();
-        Toast.makeText(CreateAccountActivity.this, "Password: " + password, Toast.LENGTH_SHORT).show();
-
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -183,11 +179,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void createFirebaseUserProfile(final FirebaseUser user) {
-        Toast.makeText(CreateAccountActivity.this, "createFirebaseUserProfile", Toast.LENGTH_SHORT).show();
         UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
                 .setDisplayName(mName)
                 .build();
-        Toast.makeText(CreateAccountActivity.this, "Second", Toast.LENGTH_SHORT).show();
         user.updateProfile(addProfileName).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

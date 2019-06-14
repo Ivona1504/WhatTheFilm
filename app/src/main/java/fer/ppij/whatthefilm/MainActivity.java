@@ -49,12 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     private MovieAdapter adapter;
 
-    // NAVIGATION
-    private View mListHeaderView;
-//    private CircleImageView mCircleImageView;
-    private ImageView mPictureImageView;
-    private TextView mUsernameTextView;
-    private TextView mEmailTextView;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -73,36 +67,8 @@ public class MainActivity extends AppCompatActivity {
         initRetrofit();
         updateMoviesList();
 
-//        initDrawerHeader();
         addDrawerItems();
         setupDrawer();
-    }
-
-    private void initDrawerHeader() {
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-//        friends = new ArrayList<>();
-        mUsernameTextView.setText(fUser.getDisplayName());
-        mEmailTextView.setText(fUser.getEmail());
-//        mProfilePhotosStorageReference.child(fUser.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Glide.with(mPictureImageView.getContext())
-//                        .load(uri)
-//                        .into(mPictureImageView);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                mProfilePhotosStorageReference.child(Constants.NO_PHOTO).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Glide.with(mPictureImageView.getContext())
-//                                .load(uri)
-//                                .into(mPictureImageView);
-//                    }
-//                });
-//            }
-//        });
     }
 
     @Override
@@ -148,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         data.add(new DrawerItem("Recommendations"));
         mDrawerAdapter = new DrawerAdapter(this, R.layout.item_drawer, data);
         mDrawerList.setAdapter(mDrawerAdapter);
-//        mDrawerList.addHeaderView(mListHeaderView);
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -169,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RecommendationsActivity.class));
                 break;
             default:
-                Toast.makeText(this, "Item at: " + position, Toast.LENGTH_LONG).show();
                 break;
         }
     }
@@ -179,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Navigation!");
+                getSupportActionBar().setTitle("WhatTheFilm");
                 invalidateOptionsMenu();
             }
 

@@ -8,36 +8,17 @@
     <ListView
         android:id="@+id/genresListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/colorPrimaryDark" />
+        android:divider="@color/colorPrimaryDark"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="40dp"
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/btnDiscover"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:text="Discover" />
-    <!--<ListView-->
-        <!--android:id="@+id/yearsListView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:divider="@color/colorPrimaryDark" />-->
 
-    <!--style="@style/Widget.AppCompat.ListView.Menu"-->
-
-        <!--android:dividerHeight="0.5dp"-->
-        <!--android:transcriptMode="alwaysScroll"-->
-        <!--tools:listitem="@layout/row_item" />-->
-
-    <!--<ListView-->
-        <!--android:id="@+id/yearsListView"-->
-        <!--style="@style/Widget.AppCompat.ListView.Menu"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:divider="@color/colorPrimaryDark"-->
-        <!--android:dividerHeight="0.5dp"-->
-        <!--android:transcriptMode="alwaysScroll"-->
-        <!--tools:listitem="@layout/row_item" />-->
 
 </RelativeLayout>

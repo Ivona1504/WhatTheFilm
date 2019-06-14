@@ -280,7 +280,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
             mUser.getRatings().put(String.valueOf(id), vote+1);
             mCurrentUserDatabaseReference.child("ratings").child(String.valueOf(id)).setValue(mUser.getRatings().get(String.valueOf(id)));
-//            mCurrentUserDatabaseReference.child("ratings").setValue(mUser.getRatings().get(id));
         } else {
             Toast.makeText(this, "You have to add movie to watched!", Toast.LENGTH_LONG).show();
         }

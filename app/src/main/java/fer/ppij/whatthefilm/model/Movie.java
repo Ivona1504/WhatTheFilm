@@ -22,8 +22,6 @@ public class Movie {
     @Expose
     @SerializedName("genres")
     private List<Genre> genres;
-
-  //private float popularity;
     @Expose
     @SerializedName("poster_path")
     private String posterPath;

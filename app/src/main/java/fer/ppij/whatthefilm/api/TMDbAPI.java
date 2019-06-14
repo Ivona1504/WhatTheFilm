@@ -24,6 +24,4 @@ public interface TMDbAPI {
     @GET("discover/movie?language=en-US")
     Single<ResultsPage> genreDiscover(@Query("with_genres") String genres, @Query("page") int page, @Query("api_key") String apiKey);
 
-    @GET("search/movie?language=en-US")
-    Single<ResultsPage> getGenres(@Query("with_genres") String genres, @Query("page") int page, @Query("api_key") String apiKey);
 }

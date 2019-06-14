@@ -1,9 +1,13 @@
 package fer.ppij.whatthefilm.model;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class Movie {
     @Expose
@@ -106,5 +110,16 @@ public class Movie {
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public String getGenresList() {
+        StringJoiner sj = new StringJoiner(",");
+        if (genres != null) {
+            for (Genre g : genres) {
+                sj.add(String.valueOf(g.getName()));
+            }
+        }
+        return sj.toString();
     }
 }

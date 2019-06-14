@@ -15,6 +15,9 @@ public interface TMDbAPI {
     @GET("movie/popular?language=en-US")
     Single<ResultsPage> getPopularMovies(@Query("page") int page, @Query("api_key") String apiKey);
 
+    @GET("movie/{movie_id}/similar?language=en-US")
+    Single<ResultsPage> getSimilarMovies(@Path("movie_id") int movieId, @Query("page") int page, @Query("api_key") String apiKey);
+
     @GET("search/movie?language=en-US")
     Single<ResultsPage> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);
 

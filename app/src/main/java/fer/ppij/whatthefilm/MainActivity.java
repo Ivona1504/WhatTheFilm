@@ -2,7 +2,9 @@ package fer.ppij.whatthefilm;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         bindViews();
-//        initFirebase();
 
         initRetrofit();
         updateMoviesList();
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         List<DrawerItem> data = new ArrayList<>();
         data.add(new DrawerItem("Discover"));
         data.add(new DrawerItem("Watchlist"));
-        data.add(new DrawerItem("Friends"));
+        data.add(new DrawerItem("Recommendations"));
         mDrawerAdapter = new DrawerAdapter(this, R.layout.item_drawer, data);
         mDrawerList.setAdapter(mDrawerAdapter);
 //        mDrawerList.addHeaderView(mListHeaderView);
@@ -163,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 startActivity(new Intent(MainActivity.this, WatchlistActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(MainActivity.this, RecommendationsActivity.class));
                 break;
             default:
                 Toast.makeText(this, "Item at: " + position, Toast.LENGTH_LONG).show();
@@ -215,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                         adapter = new MovieAdapter(resultsPage.getResults(), getApplicationContext());
                         moviesListView.setAdapter(adapter);
                         moviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Movie movie = adapter.getItem(position);

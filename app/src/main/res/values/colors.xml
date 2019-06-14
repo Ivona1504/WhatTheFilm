@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="black">#C8000000</color>
+    <color name="addWatchlistButton">#C9C2C2</color>
+    <color name="removeWatchlistButton">#4CAF50</color>
 </resources>

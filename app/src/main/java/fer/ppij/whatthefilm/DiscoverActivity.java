@@ -79,7 +79,6 @@ public class DiscoverActivity extends AppCompatActivity {
                 for (Genre g: genres) {
                     sb.add(String.valueOf(g.getId()));
                 }
-                Log.i("!!!!!!!!!!!!!!!!!", sb.toString());
                 Intent intent = new Intent(DiscoverActivity.this, SearchResultsActivity.class);
                 intent.putExtra("id", sb.toString());
                 startActivity(intent);

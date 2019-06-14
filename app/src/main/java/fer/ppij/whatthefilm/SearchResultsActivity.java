@@ -3,6 +3,7 @@ package fer.ppij.whatthefilm;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -133,6 +134,12 @@ public class SearchResultsActivity extends AppCompatActivity {
                                 intent.putExtra("id", movie.getId());
                                 intent.putExtra("originalTitle", movie.getOriginalTitle());
                                 intent.putExtra("poster", movie.getPosterPath());
+                                intent.putExtra("overview", movie.getOverview());
+                                intent.putExtra("releaseDate", movie.getReleaseDate());
+                                intent.putExtra("runtime", movie.getRuntime());
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    intent.putExtra("genres", movie.getGenresList());
+                                }
                                 startActivity(intent);
                             }
                         });

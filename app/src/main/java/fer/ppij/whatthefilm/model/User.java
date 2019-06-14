@@ -14,6 +14,8 @@ public class User {
     private int age;
     private Map<String, String> friends;
     private List<Integer> watchlist;
+    private List<Integer> watched;
+    private Map<String, Integer> ratings;
 
     public User() {}
 
@@ -25,6 +27,7 @@ public class User {
         lastname = "Lastname";
         friends = new HashMap<>();
         watchlist = new ArrayList<>();
+        watched = new ArrayList<>();
     }
 
     public String getUid() {
@@ -89,5 +92,21 @@ public class User {
 
     public void setWatchlist(List<Integer> watchlist) {
         this.watchlist = watchlist;
+    }
+
+    public List<Integer> getWatched() {
+        return watched;
+    }
+
+    public void setWatched(List<Integer> watched) {
+        this.watched = watched;
+    }
+
+    public Map<String, Integer> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Map<String, Integer> ratings) {
+        this.ratings = ratings;
     }
 }

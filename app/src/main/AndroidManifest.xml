@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WatchlistActivity"></activity>
+        <activity android:name=".RecommendationsActivity"></activity>
+        <activity android:name=".WatchlistActivity" />
         <activity
             android:name=".DiscoverActivity"
             android:parentActivityName=".MainActivity">
